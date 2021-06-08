@@ -1,46 +1,91 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main copy.cpp                                      :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bek <bek@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/07/03 20:23:38 by jaleman           #+#    #+#             */
-/*   Updated: 2021/05/26 16:12:33 by bek              ###   ########.fr       */
+/*   Created: 2021/06/07 23:57:29 by bek               #+#    #+#             */
+/*   Updated: 2021/06/08 03:32:47 by bek              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Contact.class.hpp"
+#include "phonebook.hpp"
 
-int
-main(void)
+Contact list[8];
+
+void	write_w(std::string value)
 {
-    int             contact_index;
-    Contact         phonebook[MAX_CONTACTS];
-    std::string     command;
+	std::cout << std::setw(WITDTH_LINE) << value << '|';
+}
+void	write_w(int value)
+{
+	std::cout << std::setw(WITDTH_LINE) << value << '|';
+}
 
-    contact_index = 0;
-    while (1)
-    {
-        getline(std::cin, command, '\n');
-        if (command == "ADD")
-        {
-            if (contact_index < MAX_CONTACTS)
-                phonebook[contact_index++] = addContact();
-            else
-                std::cout << "Phonebook is full! Brace yourself." << std::endl;
-        }
-        else if (command == "SEARCH")
-        {
-            if (contact_index > 0)
-                showPhonebook(phonebook, contact_index);
-            else
-                std::cout << "Phonebook is empty. :O" << std::endl;
-        }
-        else if (command == "EXIT")
-        {
-            break ;
-        }
-    }
-    return (0);
+
+void			search(int num)
+{
+	std::string input;
+	int			index;
+
+	write_w("Index");
+	write_w("First name");
+	write_w("Last name");
+	write_w("Nickname");
+	std::cout << std::endl;
+	for (int i = 0; i < num; i++)
+		list[i].write_title();
+	while (1)
+	{
+		std::cout << "Choose contact: ";
+		std::getline(std::cin, input, '\n');
+		if (input.length() == 1 && std::isdigit(input[0]) && input[0] != '0')
+		{
+			index = input[0] - '0';
+			if (index - 1 < num)
+			{
+				list[index - 1].write_info();
+				return ;
+			}
+		}
+		std::cout << "argument invalid " << num << std::endl;
+	}
+}
+
+int exec(std::string str, int &num)
+{
+	if (str == "ADD")
+		{
+			if (num >= LIM_CONT)
+				std::cout << "Over limit" << std::endl;
+			else
+				list[num].add(num);
+		}
+		else if (str == "SEARCH")
+		{
+			if (!num)
+				std::cout << "Phonebook is empty" << std::endl;
+			else
+				search(num);
+		}
+		else if (str == "EXIT")
+			return 0;
+		return 1;		
+}
+
+int				main(void)
+{
+	std::string str;
+	int num = 0;
+
+	while (1)
+	{
+		std::cout << "comands: ADD | SEARCH | EXIT" << std::endl;
+		std::cout << "> ";
+		std::getline(std::cin, str, '\n');
+		if(!exec(str, num))
+			break;
+	}
+	return (0);
 }

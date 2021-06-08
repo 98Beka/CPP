@@ -3,49 +3,30 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jaleman <jaleman@student.42.us.org>        +#+  +:+       +#+         #
+#    By: bek <bek@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2017/07/03 20:23:25 by jaleman           #+#    #+#              #
-#    Updated: 2017/07/03 20:23:26 by jaleman          ###   ########.fr        #
+#    Created: 2021/06/08 01:55:45 by bek               #+#    #+#              #
+#    Updated: 2021/06/08 03:42:27 by bek              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Name of the program.
-NAME     := phonebook
+NAME = phonebook
 
-# Sources and objects.
-SRCS     := Contact.class.cpp addContact.cpp showPhonebook.cpp main.cpp
-HDRS     := Contact.class.hpp
-OBJS     := $(SRCS:.cpp=.o)
+SRC = main.cpp phonebook.cpp
 
-# Define all the compiling flags.
-CXX      := g++
-CXXFLAGS := -std=c++98 -Wall -Werror -Wextra
+INCL = Phonebook.class.hpp
 
-# Compile and create everything.
+FLAGS = -Wall -Werror -Wextra -std=c++98 -pedantic
+
+
 all: $(NAME)
 
-# Compile the program with the objects.
-$(NAME): $(OBJS) $(HDRS)
-	@$(CXX) $(OBJS) -o $@
+$(NAME):
+	clang++ $(FLAGS) $(SRC) -o $(NAME)
 
-# This won't run if the source files don't exist or are not modified.
-%.o: %.cpp %.hpp
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
-
-# Rule to remove all the object files.
 clean:
-	@rm -f $(OBJS)
-	@echo "[INFO] Objects removed!"
 
-# Rule to remove everything that has been created by the makefile.
 fclean: clean
-	@rm -f $(NAME)
-	@echo "[INFO] $(NAME) removed!"
+	rm -f $(NAME)
 
-# Rule to re-make everything.
-re:     fclean all
-
-# Makes sure that gnu make will still run even if files called
-# clean / fclean / all and re already exist in the directory
-.PHONY: all clean fclean format re
+re: fclean all
