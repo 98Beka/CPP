@@ -6,7 +6,7 @@
 /*   By: bek <bek@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/26 17:01:08 by Marty             #+#    #+#             */
-/*   Updated: 2021/06/08 03:32:54 by bek              ###   ########.fr       */
+/*   Updated: 2021/06/08 05:58:04 by bek              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ std::string		truncate_string(std::string str)
 	if (str.length() > 10)
     {
         str.resize(7);
-        str += "...";
+        str += ".";
     }
 	return (str);
 }
@@ -74,8 +74,8 @@ std::string		truncate_string(std::string str)
 void			Contact::write_title(void) const
 {
 	write_w(this->id);
-	write_w(this->_firstName);
-	write_w(this->_lastName);
-	write_w(this->_nickname);
+	write_w(truncate_string(this->_firstName));
+	write_w(truncate_string(this->_lastName));
+	write_w(truncate_string(this->_nickname));
 	std::cout << std::endl;
 }
